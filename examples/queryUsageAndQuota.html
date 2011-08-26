@@ -27,21 +27,34 @@
         </section>
         <section id="requestQuota">
             <header>
-                <h3>Request Quota</h3>
+                <h3>Query Usage and Quota</h3>
             </header>
             <article>
                 <h5>
-                    Quota Request
+                    Query quota and usage
                 </h5>
                 <p>
                     <script type="text/javascript">
-                        var size = 10000; //2MB
-                        var success = function(bytes){alert('You requested ' + bytes + ' bytes!')};
-                        var error = function(e){alert('Error: ' + e)};
-
+                        var query = function query(type){
+                            var result = fsapi.queryUsageAndQuota(type);
+                            setTimeout(function(){
+                                $('#type').text(type);
+                                $('#quota').text(result.data["quota"]);
+                                $('#usage').text(result.data["usage"]);
+                                $('#error').text(result.error);
+                            },0);
+                        }
                     </script>
-                    <input type="button" value="Temporary request" onclick="fsapi.requestQuota('TEMPORARY',size, success, error);"/>
-                    <input type="button" value="Persistent request" onclick="fsapi.requestQuota('PERSISTENT',size, success, error);"/>
+                    <input type="button" value="Temporary query" onclick="query('TEMPORARY');"/>
+                    <input type="button" value="Persistent query" onclick="query('PERSISTENT');"/>
+
+                </p>
+                <h6>Result</h6>
+                <p>
+                    Type : <span id="type"></span><br />
+                    Quota: <span id="quota"></span><br />
+                    Usage: <span id="usage"></span><br />
+                    Error: <span id="error"></span><br />
                 </p>
             </article>
         </section>
