@@ -21,9 +21,10 @@ test("Environment is good",function(){
 })
 module("FileSystem API");
 test("fsapi methods", function(){
-    expect(1);
+    expect(2);
     //Check the requestQuota method
     ok(!!window.fsapi.requestQuota, "RequestQuota method is present.");
+    ok(!!window.fsapi.queryUsageAndQuota, "QueryUsageAndQuota method is present.");
 });
 
 test("requestQuota - quota type is invalid", function(){
@@ -106,3 +107,36 @@ test("requestQuota - errorCallback is valid", function(){
     expect(1);
     equals(requestQuota("TEMPORARY", 1, function(){}, function(){}), true, "The errorCallback is a function.");
 });
+
+test("queryUsageAndQuota - quota type is invalid", function(){
+    var queryUsageAndQuota = window.fsapi.queryUsageAndQuota;
+    expect(2);
+    raises(function(){
+        queryUsageAndQuota("not valid");
+    }, Error, "The quota type is invalid");
+    raises(function(){
+        queryUsageAndQuota("");
+    }, Error, "The quota type is invalid");
+});
+
+test("queryUsageAndQuota - quota type is valid", function(){
+    var queryUsageAndQuota = window.fsapi.queryUsageAndQuota;
+    expect(3);
+    equals(typeof(queryUsageAndQuota("TEMPORARY")), typeof({}), "The quota type is valid(TEMPORARY)");
+    equals(typeof(queryUsageAndQuota("PERSISTENT")), typeof({}), "The quota type is valid(PERSISTENT)");
+    equals(typeof(queryUsageAndQuota("PerSiStenT")), typeof({}), "The quota type is valid(PERSISTENT)");
+});
+
+test("queryUsageAndQuota - check the result", function(){
+    var queryUsageAndQuota = window.fsapi.queryUsageAndQuota;
+    var result = queryUsageAndQuota("TEMPORARY");
+    expect(5);
+    equals(typeof(result), typeof({}), "The result is an object literal");
+    equals(result.hasOwnProperty("data"), true, "The result contains a data key");
+    equals(result.hasOwnProperty("error"), true, "The result contains an error key");
+
+    var data = result.data;
+    equals(data.hasOwnProperty("quota"), true, "Data contains a quota key");
+    equals(data.hasOwnProperty("usage"), true, "Data contains an usage key");
+});
+
