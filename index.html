@@ -1,0 +1,125 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>FileSystem API</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <link rel="stylesheet" href="resources/css/style.css">
+  <script src="resources/js/libs/modernizr-2.0.6.min.js"></script>
+</head>
+
+<body>
+
+  <div id="container">
+    <header>
+        <h1>FileSystem API</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#use_cases">Use cases</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="main" role="main">
+        <section id="home">
+
+        </section>
+        <section id="use_cases">
+            <header>
+                <h3>Use cases</h3>
+            </header>
+            <article>
+                <ul>
+                    <li>
+                        Persistent uploader
+                        <ul>
+                            <h4>What could you do?</h4>
+                            <li>When a file or directory is selected for upload, it copies the files into a local sandbox
+                                and uploads a chunk at a time.
+                            </li>
+                            <li>Uploads can be restarted after browser crashes, network interruptions, etc.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Video game, music, or other apps with lots of media assets
+                        <ul>
+                            <h4>What could you do?</h4>
+                            <li>It downloads one or several large tarballs, and expands them locally into a directory structure.</li>
+                            <li>The same download works on any operating system.</li>
+                            <li>
+                                It can manage prefetching just the next-to-be-needed assets in the background, so going to
+                                the next game level or activating a new feature doesn’t require waiting for a download.
+                            <li>
+                                It uses those assets directly from its local cache, by direct file reads or by handing local
+                                URIs to image or video tags, WebGL asset loaders, etc.
+                            <li></li>
+                            <li>The files may be of arbitrary binary format.</li>
+                            <li>On the server side, a compressed tarball is often much smaller than a collection of separately
+                                compressed files. Also, one tarball instead of a 1,000 little files involves fewer seeks.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Audio/Photo editor with offline access or local cache for speed
+                        <ul>
+                            <h4>What could you do?</h4>
+                            <li>The data blobs are potentially quite large, and are read-write.</li>
+                            <li>It might want to do partial writes to files (overwriting just the ID3/EXIF tags, for example).</li>
+                            <li>The ability to organize project files by creating directories is important.</li>
+                            <li>Edited files should be accessible by client-side applications (iTunes, Picasa).</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Offline video viewer
+                        <ul>
+                            <h4>What could you do?</h4>
+                            <li>It downloads large files (>1 GB) for later viewing.</li>
+                            <li>It needs efficient seek and streaming.</li>
+                            <li>It should be able to hand a URI to the video tag.</li>
+                            <li>
+                                It should enable access to partly downloaded files (for example, to let you watch the first
+                                episode of the DVD even if your download didn’t complete before you got on the plane.)
+                            </li>
+                            <li> It should be able to pull a single episode out of the middle of a download and give just
+                                that to the video tag.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Offline web mail client
+                        <ul>
+                            <h4>What could you do?</h4>
+                            <li>Download attachments locally</li>
+                            <li>Caches user-selected attachments for later upload.</li>
+                            <li>Needs to be able to refer to cached attachments and image thumbnails for display and upload.</li>
+                            <li>Should be able to trigger the UA’s download manager just as if talking to a server.</li>
+                            <li>Should be able to upload an email with attachments as a multipart post, rather than sending a file at a time in an XHR.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </article>
+        </section>
+    </div>
+    <footer>
+
+    </footer>
+  </div>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="resources/js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+
+  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
+       chromium.org/developers/how-tos/chrome-frame-getting-started -->
+  <!--[if lt IE 7 ]>
+    <script defer src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script defer>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+
+</body>
+</html>
