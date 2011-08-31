@@ -1175,4 +1175,22 @@ test("Share - a source file ", function(){
     });
 });
 
+module("Format", {
+    setUp: function(){
+        stop();
+        window.fsjs.requestFileSystem("TEMPORARY", 10, function( response ){
+            setTimeout(function(){
+                equals(response.metadata.success, 1, "The filesystem has been created.");
+
+                stop();
+            },this.timeoutTime);
+        });
+    }
+});
+
+test("Format the filesystem ", function(){
+    window.fsjs.format();
+});
+
+
 
