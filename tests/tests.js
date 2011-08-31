@@ -21,7 +21,7 @@ test("Environment is good",function(){
 })
 module("FileSystem API");
 test("Check fsjs methods", function(){
-    expect(15);
+    expect(16);
     //Check the requestQuota method
     ok(!!window.fsjs.requestQuota, "RequestQuota method is present.");
     ok(!!window.fsjs.queryUsageAndQuota, "QueryUsageAndQuota method is present.");
@@ -37,7 +37,8 @@ test("Check fsjs methods", function(){
     ok(!!window.fsjs.duplicate, "duplicate method is present.");
     ok(!!window.fsjs.rename, "rename method is present.");
     ok(!!window.fsjs.move, "duplicate method is present.");
-    ok(!!window.fsjs.write, "write method is present.");
+    ok(!!window.fsjs.share, "share method is present.");
+    ok(!!window.fsjs.removeAll, "removeAll method is present.");
 });
 //Timeout
 this.timeoutTime = 40;
@@ -433,9 +434,13 @@ test("Directory does not exist ", function(){
     var fun = window.fsjs.removeDirectory;
 
     expect(1);
-    raises(function(){
-        fun("/testToDelete", function( response ){}, 0);
-    },Error,"The directory does not exist");
+    stop();
+    fun("/testToDelete", function( response ){
+        setTimeout(function( ){
+            equals(response.metadata.success, 0, "The directory does not exist");
+            start();
+        },this.timeoutTime);
+    }, 0);
 });
 
 test("Check the response ", function(){
@@ -1175,21 +1180,28 @@ test("Share - a source file ", function(){
     });
 });
 
-module("Format", {
+module("RemoveAll", {
     setUp: function(){
         stop();
         window.fsjs.requestFileSystem("TEMPORARY", 10, function( response ){
             setTimeout(function(){
                 equals(response.metadata.success, 1, "The filesystem has been created.");
 
-                stop();
+                start();
             },this.timeoutTime);
         });
     }
 });
 
-test("Format the filesystem ", function(){
-    window.fsjs.format();
+test("Remove all the files from the filesystem ", function(){
+    expect(1);
+    stop();
+    window.fsjs.removeAll( function( response ){
+        setTimeout(function(){
+            equals(response.metadata.success, 1, "The files have been removed");
+            start();
+        },this.timeoutTime);
+    });
 });
 
 
