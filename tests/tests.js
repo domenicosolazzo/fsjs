@@ -415,7 +415,7 @@ test("Remove a directory ", function(){
 
     stop();
     var timestamp = +new Date();
-    var testName = "/test_" + Math.floor(Math.random()*100000000)+"_"+timestamp+"/test1/test2/test3";
+    var testName = "test_" + Math.floor(Math.random()*100000000)+"_"+timestamp+"/test1/test2/test3";
 
     window.fsjs.createDirectory("/", testName, function( response ){
 
