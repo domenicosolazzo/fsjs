@@ -9,19 +9,33 @@
   <meta name="author" content="">
 
   <meta name="viewport" content="width=device-width,initial-scale=1">
-
+  <link href='http://fonts.googleapis.com/css?family=Monoton' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="resources/css/style.css">
   <link rel="stylesheet" href="resources/css/main.css">
   <script src="resources/js/libs/modernizr-2.0.6.min.js"></script>
   <script src="resources/js/libs/jquery-1.6.2.min.js"></script>
   <script src="lib/fsjs.js"></script>
+  <script type="text/javascript">
+
+    $(document).ready(function(){
+        isAvailable = window.fsjs.isAvailable;
+        $('#is_available').html(isAvailable?"Yes":"No");
+        if( isAvailable ){
+            window.fsjs.requestFileSystem("TEMPORARY", 5*1024*1024, function( response ){});
+        }else{
+            $('section#experiments').hide();
+        }
+    });
+
+  </script>
 </head>
 
 <body>
 
   <div id="wrapper">
     <header>
-        <h1>FileSystem API</h1>
+        <h1>FSJS</h1>
+        <h4>A wrapper for the FileSystem api</h4>
         <nav>
             <ul>
                 <li><a href="#home">Home</a></li>
@@ -33,16 +47,24 @@
         <section id="home">
             <header>
                 <h2>What is it?</h2>
-                <script type="text/javascript">
-                    window.fsjs.requestFileSystem("TEMPORARY", 5*1024*1024, function( response ){})
-                </script>
             </header>
             <article>
                 This library is a wrapper for the <a href="http://dev.w3.org/2009/dap/file-system/pub/FileSystem/">FileSystem API</a>.
+                Features:
+                <ul>
+                    <li>Create and remove folders</li>
+                    <li>Create and remove files</li>
+                    <li>Move files</li>
+                    <li>Rename files</li>
+                    <li>Duplicate files</li>
+                    <li>Write on files</li>
+                    
+                </ul>
             </article>
             <footer>
                 <h4>Note</h4>
                 <ul>
+                    <li>Available for the current browser: <span id="is_available"></span></li>
                     <li>Tested on Chrome 12+</li>
                     <li>It is an experimental project</li>
                     <li>Not ready for production.</li>
@@ -82,7 +104,7 @@
                             <li><input value="Create Directory" type="button" onclick="var name = prompt('Give me the name of the directory'); window.fsjs.createDirectory('/', name, function( response ){
                                 $('#directory_operation_result').html('The directory has been created.');
                             })"/></li>
-                            <li>><input value="Remove Directory" type="button" onclick="var name = prompt('Give me the name of the directory'); window.fsjs.removeDirectory(name, function( response ){
+                            <li><input value="Remove Directory" type="button" onclick="var name = prompt('Give me the name of the directory'); window.fsjs.removeDirectory(name, function( response ){
                                 if( !response.error ){
                                     $('#directory_operation_result').html('The directory has been removed.');
                                     return;
@@ -99,12 +121,35 @@
                     var isAvailable = window.fsjs.isAvailable ? "Yes!": "No, Sorry! :(";
                     $('#library_validation_answer').html(isAvailable);
                 </script>
-                <footer>
-                    The project has been tested with Chrome 12+.
-                </footer>
+            </article>
+            <article id="file_operation">
+                <header>
+                    <h4>Files Operation<h4>
+                    <nav>
+                        <ul>
+                            <li><input value="Create File" type="button" onclick="var name = prompt('Give me the name of the file'); window.fsjs.createFile(name, function( response ){
+                                if( !response.error ){
+                                    $('#file_operation_result').html('The file has been created.');
+                                    return;
+                                }
+                                $('#file_operation_result').html(response.error.msg);
+                            })"/></li>
+                            <li><input value="Remove File" type="button" onclick="var name = prompt('Give me the name of the file'); window.fsjs.removeFile(name, function( response ){
+                                if( !response.error ){
+                                    $('#file_operation_result').html('The file has been removed.');
+                                    return;
+                                }
+                                $('#file_operation_result').html(response.error.msg);
+                            })"/></li>
+                        </ul>
+                    </nav>
+                </header>
+                <p>
+                    <span id="file_operation_result"></span>
+                </p>
             </article>
             <footer>
-
+                To be continued....
             </footer>
         </section>
     </div>
