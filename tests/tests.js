@@ -561,7 +561,7 @@ test("Create a file ", function(){
 
     stop();
     var timestamp = +new Date();
-    var testName = "/test_" + Math.floor(Math.random()*100000000)+"_"+timestamp+".txt";
+    var testName = "test_" + Math.floor(Math.random()*100000000)+"_"+timestamp+".txt";
 
     fun(testName, function( response ){
         setTimeout(function(){
@@ -586,40 +586,18 @@ module("Get File", {
 
 test("File does not exist file ", function(){
     var fun = window.fsjs.getFile;
-    expect(3);
-
-    stop();
-    var timestamp = +new Date();
-    var testName = "/test_" + Math.floor(Math.random()*100000000)+"_"+timestamp+".txt";
-
-    fun(testName, function( response ){
-        setTimeout(function(){
-            notDeepEqual(response.error, null, "The error is present")
-            equals(response.error.code, 1, "The file does not exist.");
-            equals(response.metadata.success, 0, "The response contains an error.");
-            start();
-        },this.timeoutTime);
-    } );
-});
-
-
-test("File does not exist file ", function(){
-    var fun = window.fsjs.getFile;
     expect(1);
 
     stop();
     var timestamp = +new Date();
-    var testName = "/test_getFile.txt";
-
-    window.fsjs.createFile(testName, function( response ){});
+    var testName = "test_" + Math.floor(Math.random()*100000000)+"_"+timestamp+".txt";
 
     fun(testName, function( response ){
         setTimeout(function(){
-            equals(response.metadata.success, 1, "The file has been retrieved.");
+            equals(response.error.code, 1, "The file does not exist.");
             start();
-        }, this.timeoutTime);
-    });
-
+        },this.timeoutTime);
+    } );
 });
 
 module("Remove File", {
@@ -640,7 +618,7 @@ test("File does not exist file ", function(){
 
     stop();
     var timestamp = +new Date();
-    var testName = "/test_removeFile_not_exist.txt";
+    var testName = "test_removeFile_not_exist.txt";
     
     fun(testName, function( response ){
         setTimeout(function(){
@@ -658,7 +636,7 @@ test("Remove File - File has been removed ", function(){
 
     stop();
     var timestamp = +new Date();
-    var testName = "/test_removeFile.txt";
+    var testName = "test_removeFile.txt";
 
     window.fsjs.createFile(testName, function( response ){
 
@@ -708,7 +686,7 @@ test("Destination does not exist  ", function(){
     expect(2);
 
     stop();
-    var testSourceName = "/test_copy_file.txt";
+    var testSourceName = "test_copy_file.txt";
 
     window.fsjs.createFile(testSourceName, function( response ){
 
@@ -822,7 +800,7 @@ test("Duplicate a source file with a new name", function(){
     stop();
 
     var timestamp = +new Date();
-    var testSourceName = "/testDuplicate_"+ timestamp +".txt";
+    var testSourceName = "testDuplicate_"+ timestamp +".txt";
     var newName = "testDuplicate_"+timestamp+"_NEW.txt";
 
     window.fsjs.createFile(testSourceName, function( response ){
@@ -848,7 +826,7 @@ test("Duplicate a source file without a new name", function(){
     stop();
 
     var timestamp = +new Date();
-    var testSourceName = "/testDuplicate_"+ timestamp +".txt";
+    var testSourceName = "testDuplicate_"+ timestamp +".txt";
 
     window.fsjs.createFile(testSourceName, function( response ){
         setTimeout(function(){
@@ -885,7 +863,7 @@ test("Duplicate a source directory with a new name", function(){
     stop();
 
     var timestamp = +new Date();
-    var testSourceName = "/test";
+    var testSourceName = "test";
     var newName = "test_duplicate_"+timestamp;
 
     window.fsjs.createDirectory("/", testSourceName, function( response ){});
@@ -935,7 +913,7 @@ test("Destination does not exist  ", function(){
     expect(2);
 
     stop();
-    var testSourceName = "/test_copy_file.txt";
+    var testSourceName = "test_copy_file.txt";
 
     window.fsjs.createFile(testSourceName, function( response ){
 
@@ -994,30 +972,6 @@ test("Moving a source folder in a destination directory  ", function(){
 
 });
 
-test("Move - Destination is not a directory  ", function(){
-    var fun = window.fsjs.move;
-    expect(2);
-
-    stop();
-    var testSourceName = "/test_copy_file_"+ +new Date() +".txt";
-    var notAFolder = "/notafolder_"+ +new Date() +".txt";
-
-    window.fsjs.createFile(testSourceName, function( response ){
-        window.fsjs.createFile(notAFolder, function( response ){
-            fun(testSourceName, notAFolder, function( response ){
-                setTimeout(function(){
-                    notDeepEqual(response.error, null, "An error has occurred.");
-                    equals(response.metadata.success, 0, "The source file does not exist.");
-                    start();
-                },this.timeoutTime);
-            });
-        });
-    });
-
-
-
-
-});
 
 module("Rename", {
     setUp: function(){
@@ -1036,7 +990,7 @@ test("Source does not exist  ", function(){
     expect(2);
 
     stop();
-    var testSourceName = "/test_rename_file_does_not_exists_"+ +new Date()+"_.txt";
+    var testSourceName = "test_rename_file_does_not_exists_"+ +new Date()+"_.txt";
 
     fun(testSourceName, "/", function( response ){
         setTimeout(function(){
@@ -1055,7 +1009,7 @@ test("Rename a source file ", function(){
 
     var testSourceName = "rename_file_"+ +new Date();
     var testNewName = testSourceName + "_renamed.txt";
-    testSourceName = "/" +testSourceName + ".txt";
+    testSourceName = testSourceName + ".txt";
     
     window.fsjs.createFile(testSourceName, function( response ){
         setTimeout(function(){
@@ -1078,7 +1032,6 @@ test("Rename a directory  ", function(){
     
     var testSourceName = "test_rename_file_does_not_exists_"+ +new Date();
     var testNewName = testSourceName + "_renamed";
-    testSourceName = "/"+ testSourceName;
 
     window.fsjs.createDirectory("/", testSourceName, function( response ){
         setTimeout(function(){
@@ -1131,10 +1084,11 @@ test("Write a source file ", function(){
     expect(1);
 
     stop();
-    var testSourceName = "/test_write_file_does_not_exists_"+ +new Date()+".txt";
+    var testSourceName = "test_write_file_does_not_exists_"+ +new Date()+".txt";
     var data = {content:"no data", contentType:"text/plain"};
 
     window.fsjs.createFile(testSourceName, function( response ){
+        
         setTimeout(function(){
             fun(testSourceName, data, function( response ){
                 setTimeout(function(){
@@ -1163,7 +1117,7 @@ test("Share - a source file ", function(){
     expect(1);
 
     stop();
-    var testSourceName = "/test_write_file_does_not_exists_"+ +new Date()+".txt";
+    var testSourceName = "test_write_file_does_not_exists_"+ +new Date()+".txt";
     var data = {content:"data data data data", contentType:"text/plain"};
 
     window.fsjs.createFile(testSourceName, function( response ){
