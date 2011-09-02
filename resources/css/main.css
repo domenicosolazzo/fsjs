@@ -20,6 +20,9 @@ a{
     text-align:left;
 }
 /* NAVIGATION */
+nav{
+    padding: 1em;
+}
 nav ul{
     list-style-type: none;
 }
@@ -34,19 +37,31 @@ nav::after{
     display: block;
     clear:both;
     visibility: hidden;
-    padding-bottom:3em;
+    padding-bottom:1em;
 }
 
 /* HEADER */
-#wrapper > header{
+#wrapper > header {
     font-size: x-large;
     color: blue;
+    margin-bottom:0;
+    padding-bottom:0;
+}
+#wrapper > header h1 {
+    font-family: 'Monoton', cursive;
+}
+
+#main{
+    margin: 0;
 }
 
 /* SECTION */
 section{
-    border-top: 0;
+    background-color:#b5facc;
     border: 1px solid black;
-    margin-bottom:10em;
+    margin-bottom:4em;
     padding: 1em;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.5);
 }
